@@ -27,18 +27,16 @@ COPY migrations/ /app/migrations/
 COPY alembic.ini /app/alembic.ini
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Copy and build frontend
-COPY frontend/ /app/frontend/
-WORKDIR /app/frontend
-RUN yarn install && yarn build
+# Note: Frontend is in a separate repository
+# This image provides the backend API only
 
 WORKDIR /app
 
 # Create log directories
 RUN mkdir -p /var/log/supervisor
 
-# Expose ports
-EXPOSE 3000 8001
+# Expose ports (8000 for API, 8001 for alternate)
+EXPOSE 8000 8001
 
 # Start supervisor
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
