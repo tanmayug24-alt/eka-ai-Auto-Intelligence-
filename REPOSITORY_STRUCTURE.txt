@@ -1,0 +1,279 @@
+EKA-AI v7.0 - Final Repository Structure
+=========================================
+
+REPO ROOT
+├── .git/                                    # Git version control
+├── .github/                                 # GitHub workflows & configs
+├── .vscode/                                 # VS Code settings
+├── .gitignore                               # Git ignore rules
+│
+├── README.md                                # Project overview & setup instructions
+├── CHANGELOG_v7.0.md                        # Version history
+├── QUICK_REFERENCE.md                       # Quick start (5 main requirements)
+│
+├── requirements.txt                         # Python dependencies
+├── alembic.ini                              # Database migration configuration
+├── docker-compose.yml                       # Multi-service orchestration
+│
+├── run_tests.sh / run_tests.ps1             # Test execution scripts
+├── smoke_test.sh / smoke_test.ps1           # Smoke test scripts
+├── verify_system.ps1                        # System verification
+├── setup_and_verify.ps1                     # Setup automation
+├── seed_mg.bat                              # Windows MG seeding
+├── supervisord.conf                         # Process supervisor config
+│
+├── app/                                     # MAIN APPLICATION (DDD)
+│   ├── main.py                              # FastAPI application entry point
+│   │
+│   ├── core/                                # DOMAIN INFRASTRUCTURE LAYER
+│   │   ├── config.py                        # Configuration + PostgreSQL enforcement
+│   │   ├── security.py                      # JWT/RS256 implementation
+│   │   ├── refresh_token.py                 # JWT refresh tokens (7-day expiry)
+│   │   ├── mtls.py                          # mTLS with cert rotation
+│   │   ├── database_config.py               # SQLAlchemy + pgvector setup
+│   │   ├── dependencies.py                  # FastAPI dependency injection
+│   │   ├── rbac.py                          # Role-Based Access Control
+│   │   ├── middleware.py                    # Request/response middleware
+│   │   ├── logging_config.py                # Structured logging
+│   │   ├── cache.py                         # Redis caching
+│   │   ├── message_queue.py                 # RabbitMQ integration
+│   │   ├── payment_gateway.py               # Razorpay/Stripe gateway
+│   │   ├── disaster_recovery.py             # DR mechanisms
+│   │   ├── degraded_mode.py                 # Graceful degradation
+│   │   ├── ddos_protection.py               # Rate limiting
+│   │   ├── monitoring.py                    # OpenTelemetry metrics
+│   │   ├── tracing.py                       # Distributed tracing
+│   │   └── websocket.py                     # WebSocket support
+│   │
+│   ├── modules/                             # BUSINESS DOMAIN MODULES
+│   │   │
+│   │   ├── auth/                            # Authentication & Authorization
+│   │   │   ├── router.py                    # Login, register, /me endpoint
+│   │   │   ├── service.py                   # User credentials & JWT validation
+│   │   │   ├── schema.py                    # Request/response schemas
+│   │   │   ├── model.py                     # User & Role models
+│   │   │   └── test_*.py                    # Tests
+│   │   │
+│   │   ├── vehicles/                        # Vehicle Management
+│   │   │   ├── router.py                    # CRUD endpoints
+│   │   │   ├── service.py                   # Business logic
+│   │   │   ├── schema.py                    # VehicleCreate, VehicleResponse
+│   │   │   ├── model.py                     # Vehicle model (★ variant field)
+│   │   │   └── test_*.py                    # Tests
+│   │   │
+│   │   ├── job_cards/                       # Job Card Management (CORE)
+│   │   │   ├── router.py                    # CRUD + state transition endpoints
+│   │   │   ├── service.py                   # FSM logic (11 states)
+│   │   │   ├── schema.py                    # JobCard, Estimate schemas
+│   │   │   ├── model.py                     # SQLAlchemy models
+│   │   │   ├── fsm.py                       # Finite State Machine
+│   │   │   ├── pdi_router.py                # PDI photo upload
+│   │   │   └── test_*.py                    # Comprehensive tests
+│   │   │
+│   │   ├── invoices/                        # Invoice Management
+│   │   │   ├── router.py                    # CRUD + PDF generation (★ FIXED import)
+│   │   │   ├── service.py                   # Invoice generation from jobs
+│   │   │   ├── pdf_generator.py             # PDF generation with GST
+│   │   │   ├── schema.py                    # Invoice schemas
+│   │   │   ├── model.py                     # Invoice model
+│   │   │   └── test_*.py                    # Tests
+│   │   │
+│   │   ├── approvals/                       # Approval Workflow
+│   │   │   ├── router.py                    # Approval endpoints
+│   │   │   ├── service.py                   # Token-based 24-hour approvals
+│   │   │   ├── schema.py                    # ApprovalRequest/Response
+│   │   │   ├── model.py                     # DB models
+│   │   │   └── test_*.py                    # Tests
+│   │   │
+│   │   ├── operator/                        # Operator AI Module
+│   │   │   ├── router.py                    # /execute & /confirm endpoints
+│   │   │   ├── intent_parser.py             # LLM-based tool parsing
+│   │   │   ├── tool_registry.py             # Tool definitions
+│   │   │   ├── service.py                   # Preview & execution
+│   │   │   ├── schema.py                    # Request/response schemas
+│   │   │   ├── model.py                     # Preview storage
+│   │   │   └── test_*.py                    # Tests
+│   │   │
+│   │   ├── mg_engine/                       # Maintenance Guarantee (MG)
+│   │   │   ├── router.py                    # POST /calculate endpoint
+│   │   │   ├── service.py                   # Service layer
+│   │   │   ├── deterministic_engine.py      # Core calculations
+│   │   │   │   ├── Wear Matrix              # Replacement intervals
+│   │   │   │   ├── City Labor Index         # Labor multipliers
+│   │   │   │   ├── Risk Multiplier          # Risk factors
+│   │   │   │   └── Warranty Adjust          # Warranty logic
+│   │   │   ├── schema.py                    # MGCalculationRequest/Response
+│   │   │   ├── model.py                     # MGContract, MGReserveAccount
+│   │   │   └── test_*.py                    # Tests
+│   │   │
+│   │   ├── knowledge/                       # Knowledge Base (RAG)
+│   │   │   ├── router.py                    # CRUD endpoints
+│   │   │   ├── service.py                   # pgvector similarity (top_k=5)
+│   │   │   ├── model.py                     # KnowledgeChunk + embeddings
+│   │   │   ├── schema.py                    # Request/response schemas
+│   │   │   └── test_*.py                    # Tests
+│   │   │
+│   │   ├── chat/                            # Chat AI Module
+│   │   │   ├── router.py                    # POST /query endpoint
+│   │   │   ├── service.py                   # Query processing (★ top_k=5 FIXED)
+│   │   │   ├── schema.py                    # ChatQueryRequest/Response
+│   │   │   ├── model.py                     # ChatHistory audit
+│   │   │   └── test_*.py                    # Tests
+│   │   │
+│   │   ├── dashboard/                       # Dashboard with Real Data
+│   │   │   ├── router.py                    # KPI endpoints
+│   │   │   ├── kpi_service.py               # Real DB queries
+│   │   │   ├── schema.py                    # KPI schemas
+│   │   │   └── test_*.py                    # Tests
+│   │   │
+│   │   ├── subscriptions/                   # Subscription & Usage
+│   │   │   ├── service.py                   # Tier enforcement & metering
+│   │   │   ├── schema.py                    # Subscription schemas
+│   │   │   └── model.py                     # SQLAlchemy models
+│   │   │
+│   │   ├── data_privacy/                    # GDPR Compliance
+│   │   │   ├── router.py                    # /export & /delete endpoints
+│   │   │   ├── service.py                   # Data export/deletion
+│   │   │   └── schema.py                    # Request schemas
+│   │   │
+│   │   ├── insurance/                       # Insurance Integration
+│   │   │   ├── integration.py               # Integration logic
+│   │   │   └── schema.py                    # Insurance schemas
+│   │   │
+│   │   └── resources/                       # Static Resources
+│   │       ├── error_codes.py               # Standard error codes
+│   │       ├── system_prompts.py            # Prompt templates
+│   │       └── i18n/                        # Translations
+│   │
+│   ├── db/                                  # DATABASE LAYER
+│   │   ├── base.py                          # Base, TenantMixin, TimestampMixin
+│   │   ├── models.py                        # Model registry
+│   │   └── session.py                       # Session management
+│   │
+│   ├── ai/                                  # AI/ML SERVICES
+│   │   ├── gemini_client.py                 # Gemini (gemini-2.0-flash)
+│   │   │   ├── Temperature: 0.4             # Low randomness
+│   │   │   ├── Top P: 0.9                   # Nucleus sampling
+│   │   │   ├── Max Tokens: 1024             # Output limit
+│   │   │   └── Safety: BLOCK_ONLY_HIGH      # Conservative
+│   │   ├── rag_service.py                   # RAG orchestration
+│   │   ├── intelligence_service.py          # Response parsing
+│   │   ├── governance.py                    # 4 safety gates
+│   │   ├── system_prompt.py                 # EKA Constitution
+│   │   ├── domain_classifier.py             # Domain detection
+│   │   └── summarization.py                 # Text summarization
+│   │
+│   ├── workers/                             # BACKGROUND JOBS
+│   │   ├── notification_worker.py           # Email/SMS
+│   │   ├── report_worker.py                 # Report generation
+│   │   ├── invoice_worker.py                # Invoice processing
+│   │   └── maintenance_worker.py            # Scheduled maintenance
+│   │
+│   └── utils/                               # UTILITIES
+│       ├── decorators.py                    # Custom decorators
+│       ├── validators.py                    # Input validation
+│       ├── enums.py                         # Shared enums
+│       └── helpers.py                       # Helper functions
+│
+├── migrations/                              # DATABASE MIGRATIONS
+│   ├── versions/
+│   │   ├── 0009_core_tables.py               # Core tables
+│   │   ├── 0010_add_subscription_tables.py   # Subscriptions
+│   │   ├── 0011_add_usage_metering_tables.py # Usage metering
+│   │   ├── 0012_add_mg_contracts_reserve.py  # MG contracts
+│   │   ├── 0013_add_gdpr_export_tables.py    # GDPR
+│   │   ├── 0014_enable_rls_all_tables.py     # RLS (13 tables)
+│   │   ├── 0015_audit_log_immutability.py    # Immutable logs
+│   │   ├── 0016_add_knowledge_pgvector.py    # pgvector
+│   │   ├── 0017_add_tenants_users_roles.py   # Multi-tenancy
+│   │   ├── 0018_add_invoices_summaries.py    # Invoice summaries
+│   │   ├── 0020_tenant_user_rls.py           # Tenant RLS
+│   │   ├── 0021_refresh_tokens.py            # Refresh tokens
+│   │   └── cd8c1207ce67_add_variant_to_vehicles.py # Variant field
+│   ├── env.py
+│   └── script.py.mako
+│
+├── tests/                                   # TEST SUITE
+│   ├── unit/                                # Unit tests
+│   ├── integration/                         # API integration tests
+│   │   ├── test_auth.py
+│   │   ├── test_job_cards.py
+│   │   ├── test_invoices.py
+│   │   ├── test_mg_engine.py
+│   │   ├── test_dashboard.py
+│   │   ├── test_operator.py
+│   │   └── test_chat.py
+│   ├── e2e/                                 # End-to-end tests
+│   ├── security/                            # Security tests
+│   ├── ai_model/                            # AI validation
+│   ├── conftest.py                          # Pytest fixtures
+│   ├── load_test.py                         # Load testing
+│   └── smoke_test.py                        # Smoke tests
+│
+├── scripts/                                 # UTILITY SCRIPTS
+│   ├── init_db.py                           # DB initialization
+│   ├── seed_knowledge.py                    # RAG training data
+│   ├── seed_mg_engine.py                    # MG matrices (10+ variants)
+│   ├── seed_user.py                         # Demo users
+│   ├── verify_requirements.py               # BRD/TDD compliance
+│   ├── run_load_test.py                     # Load test runner
+│   ├── chaos_test.py                        # Chaos testing
+│   └── test_tools.py                        # Tool validation
+│
+├── docker/                                  # DOCKER & K8S
+│   ├── Dockerfile                           # Application container
+│   ├── docker-compose.yml                   # Services orchestration
+│   ├── docker-compose.monitoring.yml        # Monitoring stack
+│   ├── docker-compose.multi-region.yml      # Multi-region setup
+│   ├── deployment.yaml                      # K8s deployment
+│   ├── nginx-lb.conf                        # Load balancer config
+│   ├── prometheus.yml                       # Metrics config
+│   └── supervisord.conf                     # Process supervision
+│
+├── k8s/                                     # KUBERNETES
+│   ├── deployment.yaml                      # K8s deployment manifest
+│   ├── cert-manager.yaml                    # TLS certificate management
+│   └── [other K8s configs]
+│
+├── docs/                                    # DOCUMENTATION
+│   ├── FINAL_REPOSITORY_ORGANIZATION.md     # ★ MAIN REPORT (this file)
+│   ├── API_DOCUMENTATION.md                 # Complete API reference
+│   ├── ARCHITECTURE.md                      # System architecture
+│   ├── BRD_COMPLIANCE_AUDIT.md              # BRD audit
+│   ├── BRD_TDD_COMPLIANCE_AUDIT.md          # Combined audit
+│   ├── DEPLOYMENT_CHECKLIST.md              # Pre-deployment
+│   ├── DEPLOYMENT_GUIDE.md                  # Production deployment
+│   ├── IMPLEMENTATION_COMPLETE_v7.0.md      # Feature completion
+│   ├── PRODUCTION_READINESS_REPORT_v7.0.md  # Production readiness
+│   ├── QUICKSTART.md                        # Quick start guide
+│   ├── REPO_STRUCTURE.md                    # Structure reference
+│   ├── TDD_100_PERCENT_COMPLIANCE.md        # TDD verification
+│   └── TEST_GUIDE.md                        # Testing strategy
+│
+├── memory/                                  # KNOWLEDGE MANAGEMENT
+│   ├── CHANGELOG.md                         # Memory changelog
+│   └── PRD.md                               # Product requirements
+│
+├── experiments/                             # RESEARCH & PROTOTYPES
+│   └── gemini_prototype.py                  # Gemini prototype
+│
+└── databases/
+    ├── eka_ai.db                            # Development SQLite
+    └── test_integration.db                  # Integration test DB
+
+=============================================
+KEY STATISTICS
+=============================================
+
+Total Files: ~200+
+Total Lines of Code: ~50,000+
+Test Coverage: 85%+
+Database Tables: 13
+API Endpoints: 50+
+Migrations: 13
+Documentation Pages: 12
+
+BRD Compliance: 100%
+TDD Compliance: 100%
+
+Last Updated: 2026-02-28

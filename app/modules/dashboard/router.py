@@ -1,0 +1,44 @@
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.ext.asyncio import AsyncSession
+from typing import Optional
+from uuid import UUID
+from . import kpi_service
+from app.core.dependencies import get_db, get_tenant_id
+from app.core.rbac import require_role
+
+router = APIRouter(prefix="/dashboard", tags=["Dashboards"])
+
+@router.get("/workshop")
+async def get_workshop_dashboard(
+    period_days: int = 30,
+    db: AsyncSession = Depends(get_db),
+    tenant_id: str = Depends(get_tenant_id),
+    _: dict = Depends(require_role(["owner", "manager"])),
+):
+    return await kpi_service.get_workshop_kpis(tenant_id, period_days, db)
+
+@router.get("/fleet")
+async def get_fleet_dashboard(
+    db: AsyncSession = Depends(get_db),
+    tenant_id: str = Depends(get_tenant_id),
+    _: dict = Depends(require_role(["fleet_admin", "manager", "owner"])),
+):
+    return await kpi_service.get_fleet_kpis(tenant_id, db)
+
+@router.get("/owner")
+async def get_owner_dashboard(
+    vehicle_id: str,
+    db: AsyncSession = Depends(get_db),
+    tenant_id: str = Depends(get_tenant_id),
+    _: dict = Depends(require_role(["customer", "owner"])),
+):
+    return await kpi_service.get_owner_kpis(vehicle_id, tenant_id, db)
+
+@router.get("/analytics")
+async def get_analytics(
+    db: AsyncSession = Depends(get_db),
+    tenant_id: str = Depends(get_tenant_id),
+    _: dict = Depends(require_role(["owner", "manager"])),
+):
+    """Get analytics trends (P2-2)."""
+    return await kpi_service.get_analytics_trends(tenant_id, db)
