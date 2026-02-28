@@ -6,39 +6,49 @@
 
 ```bash
 pip install -r requirements.txt
-```
+
+```text
 
 ### 2. Configure Environment
 
 ```bash
+
 cp .env.example .env
+
 # Edit .env and set GEMINI_API_KEY
-```
+
+```text
 
 ### 3. Initialize Database
 
 ```bash
+
 alembic upgrade head
-```
+
+```text
 
 ### 4. Start Server
 
 ```bash
+
 uvicorn app.main:app --reload
-```
+
+```text
 
 ### 5. Get JWT Token
 
 ```bash
-curl -X POST http://localhost:8000/token \
+
+curl -X POST <http://localhost:8000/token> \
   -d "username=admin&password=admin"
-```
+
+```text
 
 Copy the `access_token` from the response.
 
 ### 6. Test API
 
-Visit http://localhost:8000/docs and click "Authorize" to paste your token.
+Visit <http://localhost:8000/docs> and click "Authorize" to paste your token.
 
 ---
 
@@ -47,7 +57,8 @@ Visit http://localhost:8000/docs and click "Authorize" to paste your token.
 ### Create a Vehicle
 
 ```bash
-curl -X POST http://localhost:8000/api/v1/vehicles \
+
+curl -X POST <http://localhost:8000/api/v1/vehicles> \
   -H "Authorization: Bearer <TOKEN>" \
   -H "Content-Type: application/json" \
   -d '{
@@ -58,24 +69,28 @@ curl -X POST http://localhost:8000/api/v1/vehicles \
     "fuel_type": "petrol",
     "owner_name": "John Doe"
   }'
-```
+
+```text
 
 ### Create a Job Card
 
 ```bash
-curl -X POST http://localhost:8000/api/v1/job-cards \
+
+curl -X POST <http://localhost:8000/api/v1/job-cards> \
   -H "Authorization: Bearer <TOKEN>" \
   -H "Content-Type: application/json" \
   -d '{
     "vehicle_id": 1,
     "complaint": "Brake noise when stopping"
   }'
-```
+
+```text
 
 ### Query EKA Chat
 
 ```bash
-curl -X POST http://localhost:8000/api/v1/chat/query \
+
+curl -X POST <http://localhost:8000/api/v1/chat/query> \
   -H "Authorization: Bearer <TOKEN>" \
   -H "Content-Type: application/json" \
   -d '{
@@ -87,12 +102,14 @@ curl -X POST http://localhost:8000/api/v1/chat/query \
       "fuel": "petrol"
     }
   }'
-```
+
+```text
 
 ### Calculate Maintenance Guarantee
 
 ```bash
-curl -X POST http://localhost:8000/api/v1/mg/calculate \
+
+curl -X POST <http://localhost:8000/api/v1/mg/calculate> \
   -H "Authorization: Bearer <TOKEN>" \
   -H "Content-Type: application/json" \
   -d '{
@@ -105,33 +122,40 @@ curl -X POST http://localhost:8000/api/v1/mg/calculate \
     "usage_type": "personal",
     "warranty_status": "expired"
   }'
-```
+
+```text
 
 ### Ingest Knowledge Document
 
 ```bash
-curl -X POST http://localhost:8000/api/v1/knowledge/ingest \
+
+curl -X POST <http://localhost:8000/api/v1/knowledge/ingest> \
   -H "Authorization: Bearer <TOKEN>" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Brake Maintenance Guide",
     "content": "Regular brake inspection is crucial. Grinding noise indicates worn pads.",
-    "source_url": "https://example.com/brake-guide"
+    "source_url": "<https://example.com/brake-guide">
   }'
-```
+
+```text
 
 ---
 
 ## 🧪 Running Tests
 
 ```bash
+
 # Windows
+
 .\run_tests.ps1
 
 # Unix/Linux/macOS
+
 chmod +x run_tests.sh
 ./run_tests.sh
-```
+
+```text
 
 ---
 
@@ -140,24 +164,32 @@ chmod +x run_tests.sh
 ### Using Docker
 
 ```bash
+
 docker run -d -p 6379:6379 redis:alpine
-```
+
+```text
 
 ### Update .env
 
 ```env
+
 REDIS_URL=redis://localhost:6379/0
-```
+
+```text
 
 ### Verify Caching
 
 ```bash
+
 # Start Redis CLI
+
 redis-cli
 
 # Monitor cache operations
+
 MONITOR
-```
+
+```text
 
 ---
 
@@ -165,21 +197,26 @@ MONITOR
 
 ### Prometheus Metrics
 
-Visit http://localhost:8000/metrics
+Visit <http://localhost:8000/metrics>
 
 ### Health Check
 
 ```bash
-curl http://localhost:8000/
-```
+
+curl <http://localhost:8000/>
+
+```text
 
 Expected response:
+
 ```json
+
 {
   "message": "Welcome to EKA-AI Platform v7.0",
   "status": "operational"
 }
-```
+
+```text
 
 ---
 
@@ -204,16 +241,18 @@ Expected response:
 ### Import Errors
 
 **Solution**: Reinstall dependencies:
+
 ```bash
 pip install -r requirements.txt --force-reinstall
-```
+
+```text
 
 ---
 
 ## 📚 Key Endpoints
 
 | Endpoint | Method | Description | Permission |
-|----------|--------|-------------|------------|
+| ------------------------- | ------------------ | --------------------------------- | -------------------------------- |
 | `/token` | POST | Get JWT token | Public |
 | `/api/v1/vehicles` | POST | Create vehicle | `can_manage_vehicles` |
 | `/api/v1/job-cards` | POST | Create job card | `can_manage_jobs` |
@@ -242,18 +281,25 @@ pip install -r requirements.txt --force-reinstall
 ## 📖 Further Reading
 
 - [ARCHITECTURE.md](ARCHITECTURE.md) — System design & architecture
+
 - [API_DOCUMENTATION.md](API_DOCUMENTATION.md) — Detailed API reference
+
 - [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) — Production deployment
+
 - [PHASE_3_4_COMPLETE.md](PHASE_3_4_COMPLETE.md) — Implementation details
 
 ---
 
 ## 💡 Tips
 
-1. **Use /docs**: FastAPI auto-generates interactive API docs at http://localhost:8000/docs
+1. **Use /docs**: FastAPI auto-generates interactive API docs at <http://localhost:8000/docs>
+
 2. **Check logs**: Structured logs show all operations with correlation IDs
+
 3. **Monitor metrics**: Prometheus metrics at /metrics track performance
+
 4. **Test first**: Run tests before making changes: `.\run_tests.ps1`
+
 5. **Redis optional**: App works without Redis, but caching improves performance
 
 ---

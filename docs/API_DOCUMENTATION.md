@@ -4,19 +4,22 @@
 
 ## Base URL
 
-```
-Development: http://localhost:8000
-Staging:     https://staging-api.eka-ai.com
-Production:  https://api.eka-ai.com
-```
+```text
+Development: <http://localhost:8000>
+Staging:     <https://staging-api.eka-ai.com>
+Production:  <https://api.eka-ai.com>
+
+```text
 
 ## Authentication
 
 All endpoints (except root and examples) require Bearer token authentication:
 
 ```http
+
 Authorization: Bearer fake-super-secret-token
-```
+
+```text
 
 **Note**: In production, use a valid JWT from your OAuth provider.
 
@@ -31,6 +34,7 @@ Send a diagnostic query to EKA-AI. The system will validate through governance g
 #### Request
 
 ```json
+
 {
   "query": "Brake grinding noise when stopping",
   "vehicle": {
@@ -41,11 +45,13 @@ Send a diagnostic query to EKA-AI. The system will validate through governance g
   },
   "tenant_id": "tenant_123"
 }
-```
+
+```text
 
 #### Response (Success - 200)
 
 ```json
+
 {
   "issue_summary": "A grinding noise is heard when the brakes are applied.",
   "probable_causes": [
@@ -65,30 +71,40 @@ Send a diagnostic query to EKA-AI. The system will validate through governance g
   "confidence_level": 95.0,
   "rag_references": null
 }
-```
+
+```text
 
 #### Error Responses
 
-**Domain Gate Deny (403)**
+### Domain Gate Deny (403)
+
 ```json
+
 {
   "detail": "DOMAIN_GATE_DENY: Query is not related to automobiles."
 }
-```
 
-**Context Request (422)**
+```text
+
+### Context Request (422)
+
 ```json
+
 {
   "detail": "CONTEXT_REQUEST: Please provide vehicle make, model, and year for a better diagnosis."
 }
-```
 
-**Low Confidence (422)**
+```text
+
+### Low Confidence (422)
+
 ```json
+
 {
   "detail": "REQUEST_CLARIFICATION: Confidence level is below threshold. Please provide more details."
 }
-```
+
+```text
 
 ---
 
@@ -99,6 +115,7 @@ Get example queries for UI demonstration.
 #### Response (200)
 
 ```json
+
 {
   "example1": {
     "query": "My car is making a grinding noise when I brake.",
@@ -113,7 +130,8 @@ Get example queries for UI demonstration.
     "query": "What are the common causes of engine overheating?"
   }
 }
-```
+
+```text
 
 ---
 
@@ -126,16 +144,19 @@ Create a new job card (main service request).
 #### Request
 
 ```json
+
 {
   "vehicle_id": 1,
   "complaint": "Brake grinding noise",
   "state": "OPEN"
 }
-```
+
+```text
 
 #### Response (200)
 
 ```json
+
 {
   "id": 1,
   "vehicle_id": 1,
@@ -146,7 +167,8 @@ Create a new job card (main service request).
   "created_at": "2026-02-24T07:59:07.853127",
   "created_by": "user@example.com"
 }
-```
+
+```text
 
 ---
 
@@ -157,6 +179,7 @@ Get a specific job card by ID.
 #### Response (200)
 
 ```json
+
 {
   "id": 1,
   "vehicle_id": 1,
@@ -167,7 +190,8 @@ Get a specific job card by ID.
   "created_at": "2026-02-24T07:59:07.853127",
   "created_by": "user@example.com"
 }
-```
+
+```text
 
 ---
 
@@ -178,21 +202,33 @@ Transition job card to a new state (FSM operation).
 #### Request
 
 ```json
+
 {
   "new_state": "DIAGNOSIS"
 }
-```
+
+```text
 
 **Valid Transitions**:
+
 - `OPEN` → `DIAGNOSIS`, `CANCELLED`
+
 - `DIAGNOSIS` → `ESTIMATE_PENDING`, `CANCELLED`
+
 - `ESTIMATE_PENDING` → `APPROVAL_PENDING`, `CANCELLED`
+
 - `APPROVAL_PENDING` → `APPROVED`, `REJECTED`
+
 - `APPROVED` → `REPAIR`, `CANCELLED`
+
 - `REPAIR` → `QC_PDI`, `CANCELLED`
+
 - `QC_PDI` → `READY`, `REPAIR` (if failed)
+
 - `READY` → `INVOICED`
+
 - `INVOICED` → `PAID`, `CANCELLED`
+
 - `PAID` → `CLOSED`
 
 #### Response (200)
@@ -205,7 +241,8 @@ Same as GET response with updated `state`.
 {
   "detail": "Invalid state transition from OPEN to REPAIR"
 }
-```
+
+```text
 
 ---
 
@@ -216,6 +253,7 @@ Create an estimate for a job card.
 #### Request
 
 ```json
+
 {
   "job_id": 1,
   "lines": [
@@ -233,11 +271,13 @@ Create an estimate for a job card.
     }
   ]
 }
-```
+
+```text
 
 #### Response (200)
 
 ```json
+
 {
   "id": 1,
   "job_id": 1,
@@ -256,7 +296,8 @@ Create an estimate for a job card.
     "total": 8260.00
   }
 }
-```
+
+```text
 
 ---
 
@@ -269,6 +310,7 @@ Calculate Maintenance Guarantee (MG) subscription cost.
 #### Request
 
 ```json
+
 {
   "make": "Tata",
   "model": "Nexon",
@@ -280,16 +322,21 @@ Calculate Maintenance Guarantee (MG) subscription cost.
   "usage_type": "commercial",
   "tenant_id": "tenant_123"
 }
-```
+
+```text
 
 **Enums**:
+
 - `fuel_type`: `petrol`, `diesel`, `electric`, `hybrid`
+
 - `warranty_status`: `under_warranty`, `out_of_warranty`
+
 - `usage_type`: `personal`, `commercial`
 
 #### Response (200)
 
 ```json
+
 {
   "annual_parts": 48000,
   "annual_labor": 24000,
@@ -299,7 +346,8 @@ Calculate Maintenance Guarantee (MG) subscription cost.
   "monthly_mg": 7700,
   "notes": "Final MG calculation must be executed by deterministic financial engine. AI cannot compute financial projections directly."
 }
-```
+
+```text
 
 **Note**: All financial calculations are deterministic - no AI math.
 
@@ -314,6 +362,7 @@ Execute a tool with preview (dry run). Always generates a preview first.
 #### Request
 
 ```json
+
 {
   "intent": "create_job_card",
   "args": {
@@ -324,11 +373,13 @@ Execute a tool with preview (dry run). Always generates a preview first.
   "actor_id": "user_456",
   "dry_run": true
 }
-```
+
+```text
 
 #### Response (200)
 
 ```json
+
 {
   "preview_id": "550e8400-e29b-41d4-a716-446655440000",
   "tool": "create_job_card",
@@ -339,7 +390,8 @@ Execute a tool with preview (dry run). Always generates a preview first.
   "action_preview": "A new job card will be created for MH12AB1234 with complaint 'Brake issue'. No irreversible action will be executed without explicit confirmation. Please confirm to proceed.",
   "expires_at": "2026-02-24T08:15:00Z"
 }
-```
+
+```text
 
 ---
 
@@ -350,16 +402,19 @@ Confirm and execute a previously generated preview.
 #### Request
 
 ```json
+
 {
   "preview_id": "550e8400-e29b-41d4-a716-446655440000",
   "confirm": true,
   "actor_id": "user_456"
 }
-```
+
+```text
 
 #### Response (200) - Success
 
 ```json
+
 {
   "execution_id": "660e8400-e29b-41d4-a716-446655440001",
   "status": "success",
@@ -367,11 +422,13 @@ Confirm and execute a previously generated preview.
     "job_card_id": 2
   }
 }
-```
+
+```text
 
 #### Response (200) - Cancelled
 
 ```json
+
 {
   "execution_id": null,
   "status": "cancelled",
@@ -379,15 +436,18 @@ Confirm and execute a previously generated preview.
     "message": "Action not confirmed."
   }
 }
-```
+
+```text
 
 #### Error Response (400)
 
 ```json
+
 {
   "detail": "Preview not found or expired."
 }
-```
+
+```text
 
 ---
 
@@ -402,6 +462,7 @@ Get dashboard metrics (read-only).
 #### Response (200) - Workshop Dashboard
 
 ```json
+
 {
   "type": "workshop",
   "kpis": {
@@ -418,35 +479,47 @@ Get dashboard metrics (read-only).
     "READY": 2
   }
 }
-```
+
+```text
 
 ---
 
 ## Error Response Formats
 
 ### 400 Bad Request
+
 ```json
+
 {
   "detail": "Invalid request payload"
 }
-```
+
+```text
 
 ### 401 Unauthorized
+
 ```json
+
 {
   "detail": "Not authenticated"
 }
-```
+
+```text
 
 ### 403 Forbidden
+
 ```json
+
 {
   "detail": "The user does not have the required permission"
 }
-```
+
+```text
 
 ### 422 Validation Error
+
 ```json
+
 {
   "detail": [
     {
@@ -456,7 +529,8 @@ Get dashboard metrics (read-only).
     }
   ]
 }
-```
+
+```text
 
 ---
 
@@ -465,6 +539,7 @@ Get dashboard metrics (read-only).
 ### React Hook Example
 
 ```typescript
+
 // hooks/useEKAChat.ts
 import { useState } from 'react';
 
@@ -521,11 +596,13 @@ export const useEKAChat = () => {
 
   return { sendQuery, loading, error };
 };
-```
+
+```text
 
 ### Vue Composable Example
 
 ```typescript
+
 // composables/useJobCards.ts
 import { ref } from 'vue';
 
@@ -565,7 +642,8 @@ export const useJobCards = () => {
 
   return { jobCard, loading, createJobCard, transitionState };
 };
-```
+
+```text
 
 ---
 
@@ -574,18 +652,22 @@ export const useJobCards = () => {
 Real-time updates for job state changes:
 
 ```javascript
+
 const ws = new WebSocket('wss://api.eka-ai.com/ws/job-cards');
 
 ws.onmessage = (event) => {
   const data = JSON.parse(event.data);
   // { type: 'JOB_STATE_CHANGED', job_id: 1, old_state: 'OPEN', new_state: 'DIAGNOSIS' }
 };
-```
+
+```text
 
 ---
 
 ## Support
 
 - **API Issues**: Contact backend team
+
 - **Documentation**: Submit PR to update this file
+
 - **Examples**: See `tests/e2e/` for full integration tests

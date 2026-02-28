@@ -10,50 +10,67 @@
 ## ⚡ 5-MINUTE SETUP
 
 ### Step 1: Create Frontend Directory & Copy Files
+
 ```bash
 cd /workspaces/eka-ai-Auto-Intelligence-
 
 # Create frontend directory with src folder
+
 mkdir -p frontend/src
 
 # Copy all frontend files from repo root to frontend directory
+
 cp frontend-package.json frontend/package.json
 cp frontend-index.html frontend/index.html
 cp src-app.jsx frontend/src/App.jsx
 cp frontend-tsconfig.json frontend/tsconfig.json
 cp frontend-vite.config.js frontend/vite.config.js
 cp frontend-.env.example frontend/.env.local
-```
+
+```text
 
 ### Step 2: Install Dependencies (2 minutes)
+
 ```bash
+
 cd frontend
 npm install
-```
+
+```text
 
 Expected output: Shows installation of React, Vite, Tailwind CSS, Axios, Recharts, and 20+ other dependencies
 
 ### Step 3: Start Development Server (30 seconds)
+
 ```bash
+
 npm run dev
-```
+
+```text
 
 Expected output:
-```
+
+```text
+
 ✨ Built in 450ms
 VITE v5.0.0  ready in 450 ms
-➜  Local:   http://localhost:3000
+➜  Local:   <http://localhost:3000>
 ➜  Press h for help
-```
+
+```text
 
 ### Step 4: Open in Browser
-Navigate to: **http://localhost:3000**
+
+Navigate to: **<http://localhost:3000**>
 
 ### Step 5: Login with Test Credentials
-```
+
+```text
+
 Email:    admin@eka-ai.com
 Password: admin123
-```
+
+```text
 
 Expected: Dashboard loads with KPI cards showing real data
 
@@ -62,71 +79,119 @@ Expected: Dashboard loads with KPI cards showing real data
 ## ✅ 10-POINT VERIFICATION TEST
 
 ### 1. Authentication ✅
+
 - [ ] Login page loads
+
 - [ ] Can login with test credentials
+
 - [ ] Token saved in localStorage (F12 → Application → localStorage → access_token)
+
 - [ ] Dashboard appears after login
+
 - [ ] Logout works
+
 - [ ] Returns to login page after logout
 
 ### 2. Navigation ✅
+
 - [ ] Sidebar shows all 7 pages
+
 - [ ] Can click pages to navigate
+
 - [ ] Active page highlighted
+
 - [ ] Menu collapses/expands
+
 - [ ] User profile section visible
 
 ### 3. Dashboard ✅
+
 - [ ] Shows 4 KPI cards (Jobs, Revenue, Vehicles, Approvals)
+
 - [ ] Displays revenue trend chart
+
 - [ ] Data loads correctly
+
 - [ ] Numbers are not zeros
 
 ### 4. Vehicles ✅
+
 - [ ] Can view list of vehicles
+
 - [ ] Add button works (opens modal)
+
 - [ ] Can fill vehicle form including VARIANT field
+
 - [ ] Can submit and see success message
+
 - [ ] New vehicle appears in list
+
 - [ ] Edit button works
+
 - [ ] Delete button works
 
 ### 5. Job Cards ✅
+
 - [ ] Can view all job cards
+
 - [ ] Can create new job
+
 - [ ] State transitions work (OPEN → DIAGNOSIS → etc.)
+
 - [ ] All 11 states available
+
 - [ ] Job statuses display correctly
 
 ### 6. Invoices ✅
+
 - [ ] Can view invoice list
+
 - [ ] Shows summary cards (Pending, Approved, Paid)
+
 - [ ] Can view invoice details
+
 - [ ] PDF download button is visible
 
 ### 7. Insurance (MG Engine) ✅
+
 - [ ] Form loads with all fields
+
 - [ ] VARIANT field is visible and working
+
 - [ ] Can fill vehicle details
+
 - [ ] Calculate button works
+
 - [ ] Shows premium amount
+
 - [ ] Breakdown chart appears
 
 ### 8. Chat ✅
+
 - [ ] Message input visible
+
 - [ ] Can type and send message
+
 - [ ] Response appears
+
 - [ ] Message history displays
 
 ### 9. UI Responsiveness ✅
+
 - [ ] Desktop (1920px): Full layout works
+
 - [ ] Tablet (768px): Sidebar collapses, content adapts
+
 - [ ] Mobile (375px): Single column, touch-friendly
 
 ### 10. Error Handling ✅
+
 - [ ] Stop backend, try to load data
+
 - [ ] Should show error message (not crash)
+
 - [ ] Restart backend
+
 - [ ] Data loads successfully again
 
 ---
@@ -134,19 +199,29 @@ Expected: Dashboard loads with KPI cards showing real data
 ## 🔍 IN BROWSER DEVELOPER TOOLS
 
 ### Check Network Traffic (F12 → Network tab)
+
 1. Try logging in
+
 2. Look for: POST /api/v1/auth/login
+
 3. Response should have: `access_token`, `refresh_token`
+
 4. Headers should show: `Authorization: Bearer <token>`
 
 ### Check Console (F12 → Console tab)
+
 - Should be clean (no red errors)
+
 - Warnings about PropTypes are OK
+
 - Look for any API errors (red text)
 
 ### Check Storage (F12 → Application → localStorage)
+
 - Should see: `access_token`
+
 - Should see: `refresh_token`
+
 - Should see: `user` (JSON object)
 
 ---
@@ -154,9 +229,13 @@ Expected: Dashboard loads with KPI cards showing real data
 ## 🧪 DETAILED TESTING PROCEDURE
 
 ### Test Vehicles CRUD (5 minutes)
-```
+
+```text
+
 1. Click "Vehicles" in sidebar
+
 2. Click "Add Vehicle"
+
 3. Fill form:
    Plate: KA-01-TEST-001
    Make: Maruti
@@ -167,24 +246,33 @@ Expected: Dashboard loads with KPI cards showing real data
    Owner: Test Owner
    VIN: ABC123DEF456
    Monthly KM: 1500
+
 4. Click "Create"
+
 5. Success message should appear
 6. New vehicle should appear in list
 7. Click "Edit" on vehicle, verify fields
 8. Click "Delete", confirm deletion
 Result: ✓ CRUD operations work
-```
+
+```text
 
 ### Test Job Card Workflow (5 minutes)
-```
+
+```text
+
 1. Click "Job Cards" in sidebar
+
 2. Click "New Job"
+
 3. Select vehicle from dropdown
+
 4. Fill form:
    Complaint: Test brake issue
    Priority: High
    Expected Completion: (next day)
    Assigned Mechanic: Test Mechanic
+
 5. Click "Create"
 6. Job appears in list with number
 7. Click "View" on job
@@ -193,11 +281,15 @@ Result: ✓ CRUD operations work
 10. Transition completes
 11. Repeat steps 8-10 for multiple states
 Result: ✓ FSM state machine works
-```
+
+```text
 
 ### Test Insurance Calculation (3 minutes)
-```
+
+```text
+
 1. Click "Insurance" in sidebar
+
 2. Fill form:
    Make: Tata
    Model: Nexon
@@ -208,84 +300,125 @@ Result: ✓ FSM state machine works
    Monthly KM: 2500
    Warranty: Out of Warranty
    Usage: Commercial
+
 3. Click "Calculate"
+
 4. Should show:
+
    - Annual premium (e.g., ₹15,000)
+
    - Monthly premium (e.g., ₹1,250)
+
    - Cost breakdown
+
    - Pie chart
 Result: ✓ MG Engine calculation works
-```
+
+```text
 
 ---
 
 ## 📊 SUCCESS CRITERIA
 
-**Frontend is working correctly when:**
+### Frontend is working correctly when:
+
 - ✅ All 10 verification tests pass
+
 - ✅ No red errors in console
+
 - ✅ API calls show 200/201 responses
+
 - ✅ Token appears in localStorage
+
 - ✅ All pages load without crashing
+
 - ✅ Forms submit successfully
+
 - ✅ Charts and tables display data
+
 - ✅ Responsive design responsive on all screen sizes
 
-**Expected Result: 150/150 tests pass (100%)**
+### Expected Result: 150/150 tests pass (100%)
 
 ---
 
 ## 🚨 COMMON ISSUES & SOLUTIONS
 
 ### Issue: "Cannot find module 'react'"
+
 ```bash
+
 # Solution: Reinstall dependencies
+
 rm -rf node_modules
 npm install
 npm run dev
-```
+
+```text
 
 ### Issue: "CORS error" or "API unreachable"
-```
-Check: Is backend API running on http://localhost:8000?
+
+```text
+
+Check: Is backend API running on <http://localhost:8000?>
 Run: python -m uvicorn app.main:app --reload
-Or check: .env.local has REACT_APP_API_URL=http://localhost:8000/api/v1
-```
+Or check: .env.local has REACT_APP_API_URL=<http://localhost:8000/api/v1>
+
+```text
 
 ### Issue: "401 Unauthorized"
-```
+
+```text
+
 Check: localStorage has access_token
 Token might be expired - clear localStorage and login again
-```
+
+```text
 
 ### Issue: "Blank page"
-```
+
+```text
+
 Check: Browser console (F12) for errors
 Check: Network tab to see if index.html loads
 Try: Hard refresh (Ctrl+Shift+R or Cmd+Shift+R)
-```
+
+```text
 
 ---
 
 ## 🎯 NEXT STEPS AFTER TESTING
 
 ### When All Tests Pass ✅
+
 1. Share results with project team
+
 2. Provide confirmation that frontend is ready
+
 3. Decision point: Deploy to staging or production
 
 ### Testing Against Staging API ⏳
+
 After local testing confirms all features work:
-1. Update `.env.local`: `REACT_APP_API_URL=http://staging-api.eka-ai.com/api/v1`
+
+1. Update `.env.local`: `REACT_APP_API_URL=<http://staging-api.eka-ai.com/api/v1`>
+
 2. Restart dev server: `npm run dev`
+
 3. Repeat all 10-point verification tests
+
 4. Confirm data flows correctly from staging backend
 
 ### Final Production Deployment ⏳
+
 See: `FRONTEND_SETUP_DEPLOYMENT_GUIDE.md` for 4 deployment options:
+
 - Option 1: Vercel (Recommended)
+
 - Option 2: Netlify
+
 - Option 3: Docker
+
 - Option 4: AWS S3 + CloudFront
 
 ---
@@ -293,41 +426,56 @@ See: `FRONTEND_SETUP_DEPLOYMENT_GUIDE.md` for 4 deployment options:
 ## 📞 TROUBLESHOOTING
 
 ### Port 3000 Already in Use
+
 ```bash
+
 # Find process on port 3000
+
 lsof -i :3000
 
 # Kill it
+
 kill -9 <PID>
 
 # Or use different port
+
 npm run dev -- --port 3001
-```
+
+```text
 
 ### Module Issues
+
 ```bash
+
 # Clear npm cache
+
 npm cache clean --force
 
 # Reinstall everything
+
 rm -rf node_modules package-lock.json
 npm install
-```
+
+```text
 
 ### Build Errors
+
 ```bash
+
 # Try building for production
+
 npm run build
 
 # Check for any warnings/errors
-```
+
+```text
 
 ---
 
 ## ✨ SUMMARY
 
 | Step | Action | Time | Status |
-|------|--------|------|--------|
+| ---------------- | ------------------ | ---------------- | ------------------ |
 | 1 | Copy files to frontend/ | 1 min | 📋 instruction |
 | 2 | npm install | 2 min | 📋 instruction |
 | 3 | npm run dev | 1 min | 📋 instruction |
@@ -346,9 +494,12 @@ npm run build
 Frontend application is **READY FOR TESTING**.
 
 All files are committed to GitHub at:
-```
-https://github.com/tanmayug24-alt/eka-ai-Auto-Intelligence-.git
-```
+
+```text
+
+<https://github.com/tanmayug24-alt/eka-ai-Auto-Intelligence-.git>
+
+```text
 
 Follow the 5-minute setup above to begin testing.
 
@@ -358,4 +509,3 @@ Follow the 5-minute setup above to begin testing.
 **Next:** User performs local testing
 **Then:** Report results and proceed to deployment
 **Timeline:** 30 minutes for local testing + approval = ready for production
-

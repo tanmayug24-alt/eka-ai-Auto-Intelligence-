@@ -1,6 +1,6 @@
 # EKA-AI v7.0 Repository Structure
 
-```
+```text
 eka-ai-7.0/
 ├── app/                          # Main backend application
 │   ├── ai/                       # AI/ML services
@@ -143,11 +143,13 @@ eka-ai-7.0/
 ├── docker-compose.yml           # Docker Compose
 ├── requirements.txt             # Python dependencies
 └── README.md                    # Main README
-```
+
+```text
 
 ## Module Dependencies
 
-```
+```text
+
 app/
 ├── modules/
 │   ├── job_cards/ → vehicles, approvals, invoices
@@ -155,12 +157,13 @@ app/
 │   ├── mg_engine/ → vehicles
 │   ├── operator/ → job_cards, vehicles
 │   └── dashboard/ → job_cards, invoices, vehicles
-```
+
+```text
 
 ## Key Files
 
 | File | Purpose |
-|------|---------|
+| ---------------- | ------------------------ |
 | `app/main.py` | FastAPI application entry point |
 | `app/core/config.py` | Application settings |
 | `frontend/src/App.jsx` | React app root |
@@ -170,26 +173,36 @@ app/
 ## Testing
 
 ```bash
+
 # Run all tests
+
 pytest tests/
 
 # Run integration tests only
+
 pytest tests/integration/
 
 # Run with coverage
+
 pytest --cov=app tests/
-```
+
+```text
 
 ## Development
 
 ```bash
+
 # Backend
+
 uvicorn app.main:app --reload --port 8001
 
 # Frontend
+
 cd frontend && npm run dev
 
 # Database migrations
+
 alembic revision --autogenerate -m "description"
 alembic upgrade head
-```
+
+```text
