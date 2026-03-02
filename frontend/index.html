@@ -55,15 +55,8 @@
   <!-- Root element for React app -->
   <div id="root"></div>
 
-  <!-- Main React application -->
-  <script type="module">
-    // Import statements will be handled by build tool
-    import React from '/@fs//workspaces/eka-ai-Auto-Intelligence-/node_modules/react/index.js';
-    import ReactDOM from '/@fs//workspaces/eka-ai-Auto-Intelligence-/node_modules/react-dom/index.js';
-    import App from './src-app.jsx';
-
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-  </script>
+  <!-- Main React application entry point -->
+  <script type="module" src="/src/main.jsx"></script>
 
   <!-- Fallback message if JavaScript is disabled -->
   <noscript>

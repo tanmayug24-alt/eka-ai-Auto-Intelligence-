@@ -1,16 +1,18 @@
 # FRONTEND SCREEN-BY-SCREEN TESTING GUIDE
+
 ## Complete Walkthrough with Expected Results
 
 **Frontend Status:** ✅ RUNNING & VERIFIED
-**Dev Server:** http://localhost:3000
+**Dev Server:** <http://localhost:3000>
 **Build Date:** 2026-03-02
 
 ---
 
 ## 🎬 SCREEN 1: LOGIN PAGE
 
-### What You'll See:
-```
+### What You'll See
+
+```text
 ┌─────────────────────────────────────┐
 │                                     │
 │         EKA-AI PLATFORM             │
@@ -34,20 +36,31 @@
 │  🔗 Forgot password?                │
 │                                     │
 └─────────────────────────────────────┘
-```
 
-### Test Steps:
-1. ✅ Page loads without errors
-2. ✅ Email field visible
-3. ✅ Password field visible
-4. ✅ Login button visible
-5. ✅ Form validation working (try submitting empty form)
-6. ✅ Browser console clean (F12 → Console)
+```text
 
-### Expected Behavior:
+### Test Steps
+
+- ✅ Page loads without errors
+
+- ✅ Email field visible
+
+- ✅ Password field visible
+
+- ✅ Login button visible
+
+- ✅ Form validation working (try submitting empty form)
+
+- ✅ Browser console clean (F12 → Console)
+
+### Expected Behavior
+
 - Form validation prevents empty submission
+
 - Error message shows if credentials wrong
+
 - On success: redirects to Dashboard
+
 - Token saved to localStorage (F12 → Application → localStorage → access_token)
 
 **Status: ✅ VERIFIED**
@@ -56,8 +69,9 @@
 
 ## 🎬 SCREEN 2: DASHBOARD
 
-### What You'll See:
-```
+### What You'll See
+
+```text
 ┌──────────────────────────────────────────┐
 │ ☰ SIDEBAR        │ EKA-AI Dashboard     │
 ├──────────────────┼──────────────────────┤
@@ -88,21 +102,33 @@
 │                 │ Month: J│F │M │A    │
 │                 │                      │
 └──────────────────────────────────────────┘
-```
 
-### Test Steps:
+```text
+
+### Test Steps
+
 1. ✅ 4 KPI cards visible (Jobs, Revenue, Vehicles, Approvals)
+
 2. ✅ Each card shows numbers (not zeros)
+
 3. ✅ Revenue trend chart renders
+
 4. ✅ Chart has proper labels and values
+
 5. ✅ All sidebar pages visible
+
 6. ✅ Current page highlighted (Dashboard)
+
 7. ✅ User profile shows in sidebar
 
-### Expected Behavior:
+### Expected Behavior
+
 - Cards load with real data from API
+
 - Chart displays trend line smoothly
+
 - Responsive layout on all screen sizes
+
 - No console errors
 
 **Status: ✅ VERIFIED**
@@ -111,8 +137,9 @@
 
 ## 🎬 SCREEN 3: VEHICLES PAGE
 
-### What You'll See:
-```
+### What You'll See
+
+```text
 ┌──────────────────────────────────────────┐
 │ ☰ SIDEBAR        │ Vehicles Management  │
 ├──────────────────┼──────────────────────┤
@@ -140,19 +167,29 @@
 │                 │ │ [Load more...]   ││
 │                 │ └──────────────────┘│
 └──────────────────────────────────────────┘
-```
 
-### Test Steps:
+```text
+
+### Test Steps
+
 1. ✅ Vehicle list loads
+
 2. ✅ "Add Vehicle" button visible and clickable
+
 3. ✅ Each vehicle shows: Plate, Make, Model (with VARIANT), Year, Fuel
+
 4. ✅ Edit button works (opens edit modal)
+
 5. ✅ Delete button works (shows confirmation)
+
 6. ✅ Search/filter functional
 
 ### Test: Add New Vehicle
-```
+
+```text
+
 1. Click "Add Vehicle" button
+
 2. Form modal opens with fields:
    □ License Plate: KA-01-TEST-001
    □ Make: Maruti
@@ -163,10 +200,14 @@
    □ Owner: John Doe
    □ VIN: ABC123DEF456
    □ Monthly KM: 1500
+
 3. Click "Create" button
+
 4. Success message appears
+
 5. New vehicle appears in list
-```
+
+```text
 
 **Status: ✅ VERIFIED**
 
@@ -174,8 +215,9 @@
 
 ## 🎬 SCREEN 4: JOB CARDS PAGE
 
-### What You'll See:
-```
+### What You'll See
+
+```text
 ┌──────────────────────────────────────────┐
 │ ☰ SIDEBAR        │ Job Cards Management │
 ├──────────────────┼──────────────────────┤
@@ -202,45 +244,66 @@
 │                 │ │ 👁️ View | ✏️ Edit││
 │                 │ └──────────────────┘│
 └──────────────────────────────────────────┘
-```
 
-### Test Steps:
+```text
+
+### Test Steps
+
 1. ✅ Job list loads
+
 2. ✅ "New Job" button visible
+
 3. ✅ Each job shows: Job number, Vehicle, Status
+
 4. ✅ State transition buttons visible
 
 ### Test: Job State Transitions
-```
+
+```text
 11-State FSM Workflow:
 
 1. OPEN (Initial)
    ↓ [→ DIAGNOSIS]
+
 2. DIAGNOSIS
    ↓ [→ ESTIMATE_PENDING]
+
 3. ESTIMATE_PENDING
    ↓ [→ APPROVAL_PENDING]
+
 4. APPROVAL_PENDING
    ↓ [→ APPROVED]
+
 5. APPROVED
    ↓ [→ REPAIR]
+
 6. REPAIR
    ↓ [→ QC_PDI]
+
 7. QC_PDI
    ↓ [→ READY]
+
 8. READY
    ↓ [→ INVOICED]
+
 9. INVOICED
    ↓ [→ PAID]
+
 10. PAID
     ↓ [→ CLOSED]
+
 11. CLOSED (Final)
-```
+
+```text
 
 **Testing:**
+
 1. ✅ All state buttons appear in correct order
+
 2. ✅ State transitions work smoothly
+
 3. ✅ Status badge updates color based on state
+
 4. ✅ No errors during transitions
 
 **Status: ✅ VERIFIED**
@@ -249,8 +312,9 @@
 
 ## 🎬 SCREEN 5: INVOICES PAGE
 
-### What You'll See:
-```
+### What You'll See
+
+```text
 ┌──────────────────────────────────────────┐
 │ ☰ SIDEBAR        │ Invoices             │
 ├──────────────────┼──────────────────────┤
@@ -283,15 +347,23 @@
 │                 │ │ 👁️ View | 📥 PDF ││
 │                 │ └──────────────────┘│
 └──────────────────────────────────────────┘
-```
 
-### Test Steps:
+```text
+
+### Test Steps
+
 1. ✅ 3 summary cards visible (Pending, Approved, Paid)
+
 2. ✅ Each card shows total amount and count
+
 3. ✅ Invoice list loads
+
 4. ✅ Click "View" → Details modal opens
+
 5. ✅ PDF download button works
+
 6. ✅ Shows GST breakdown
+
 7. ✅ Amount calculations correct
 
 **Status: ✅ VERIFIED**
@@ -300,8 +372,9 @@
 
 ## 🎬 SCREEN 6: INSURANCE (MG ENGINE)
 
-### What You'll See:
-```
+### What You'll See
+
+```text
 ┌──────────────────────────────────────────┐
 │ ☰ SIDEBAR        │ Insurance Calculator │
 ├──────────────────┼──────────────────────┤
@@ -334,21 +407,32 @@
 │                 │ └──────────────────┘│
 │                 │        (Pie Chart)   │
 └──────────────────────────────────────────┘
-```
 
-### Test Steps:
+```text
+
+### Test Steps
+
 1. ✅ Form loads with all fields
+
 2. ✅ VARIANT field visible and functional (BRD requirement)
+
 3. ✅ All dropdown selectable
+
 4. ✅ Calculate button works
+
 5. ✅ Shows annual premium
+
 6. ✅ Shows monthly premium
+
 7. ✅ Shows breakdown components
+
 8. ✅ Pie chart renders with colors
+
 9. ✅ Calculations accurate
 
 **Test Values:**
-```
+
+```text
 Make: Tata
 Model: Nexon
 VARIANT: XZA+ (Important - BRD required field)
@@ -363,7 +447,8 @@ Expected Result:
 Annual Premium: ~₹15,000
 Monthly Premium: ~₹1,250
 Cost Breakdown with Pie Chart visible
-```
+
+```text
 
 **Status: ✅ VERIFIED**
 
@@ -371,8 +456,9 @@ Cost Breakdown with Pie Chart visible
 
 ## 🎬 SCREEN 7: CHAT PAGE
 
-### What You'll See:
-```
+### What You'll See
+
+```text
 ┌──────────────────────────────────────────┐
 │ ☰ SIDEBAR        │ AI Chat Assistant   │
 ├──────────────────┼──────────────────────┤
@@ -403,16 +489,25 @@ Cost Breakdown with Pie Chart visible
 │                 │ │             [Send]││
 │                 │ └──────────────────┘│
 └──────────────────────────────────────────┘
-```
 
-### Test Steps:
+```text
+
+### Test Steps
+
 1. ✅ Chat window loads
+
 2. ✅ Message history visible
+
 3. ✅ Text input functional
+
 4. ✅ Send button works
+
 5. ✅ Messages appear in real-time
+
 6. ✅ Timestamps display
+
 7. ✅ User/AI messages differentiated
+
 8. ✅ Scrolls smoothly
 
 **Status: ✅ VERIFIED**
@@ -421,8 +516,9 @@ Cost Breakdown with Pie Chart visible
 
 ## 🎬 SCREEN 8: APPROVALS PAGE
 
-### What You'll See:
-```
+### What You'll See
+
+```text
 ┌──────────────────────────────────────────┐
 │ ☰ SIDEBAR        │ Approvals            │
 ├──────────────────┼──────────────────────┤
@@ -447,15 +543,23 @@ Cost Breakdown with Pie Chart visible
 │                 │ │        [Reject]  ││
 │                 │ └──────────────────┘│
 └──────────────────────────────────────────┘
-```
 
-### Test Steps:
+```text
+
+### Test Steps
+
 1. ✅ Pending approvals list visible
+
 2. ✅ Each approval shows details
+
 3. ✅ "View" button opens details modal
+
 4. ✅ "Approve" button works
+
 5. ✅ "Reject" button shows reason form
+
 6. ✅ Status updates after action
+
 7. ✅ Notification appears
 
 **Status: ✅ VERIFIED**
@@ -465,7 +569,8 @@ Cost Breakdown with Pie Chart visible
 ## 🔍 BROWSER DEVELOPER TOOLS VERIFICATION
 
 ### Network Tab (F12 → Network → Login)
-```
+
+```text
 Request:
 POST /api/v1/auth/login
 Headers:
@@ -484,23 +589,27 @@ Status: 200 OK
     "tenant_id": "tenant-001"
   }
 }
-```
+
+```text
 
 ✅ Token received and stored
 ✅ User data loaded
 ✅ Headers include Authorization Bearer token
 
 ### Console Tab (F12 → Console)
-```
+
+```text
 Expected: Clean console (no red errors)
 
 ✅ No red error messages
 ⚠️  (Warnings OK if any)
 ✅ All console logs informative
-```
+
+```text
 
 ### Application Tab (F12 → Application → Storage → localStorage)
-```
+
+```text
 access_token: "eyJhbGciOiJIUzI1NiIs..."
 refresh_token: "eyJhbGciOiJIUzI1NiIs..."
 user: "{"id":"user-123","email":"admin@eka-ai.com",...}"
@@ -508,87 +617,135 @@ user: "{"id":"user-123","email":"admin@eka-ai.com",...}"
 ✅ All tokens present
 ✅ User data persisted
 ✅ Session maintained
-```
+
+```text
 
 ---
 
 ## 📱 RESPONSIVE DESIGN VERIFICATION
 
 ### Desktop (1920x1080) ✅
+
 - Full sidebar visible
+
 - 2-column layouts work
+
 - All content visible without scrolling
+
 - Hover effects work
 
 ### Tablet (768x1024) ✅
+
 - Sidebar collapses to hamburger menu
+
 - Content adjusts to single column
+
 - All buttons touch-friendly
+
 - Forms properly spaced
 
 ### Mobile (375x667) ✅
+
 - Hamburger menu only
+
 - Single column layout
+
 - Large touch targets
+
 - Proper spacing and padding
 
 ---
 
 ## 🎯 FEATURE VERIFICATION CHECKLIST
 
-### ✅ All Features Confirmed Working:
+### ✅ All Features Confirmed Working
 
 **Authentication:**
+
 - ✅ Login form
+
 - ✅ Form validation
+
 - ✅ Token storage
+
 - ✅ Session persistence
+
 - ✅ Logout functionality
 
 **Dashboard:**
+
 - ✅ 4 KPI cards
+
 - ✅ Revenue chart
+
 - ✅ Real-time data
 
 **Vehicles:**
+
 - ✅ List view
+
 - ✅ Add vehicle (with VARIANT field)
+
 - ✅ Edit vehicle
+
 - ✅ Delete vehicle
 
 **Job Cards:**
+
 - ✅ 11-state workflow
+
 - ✅ State transitions
+
 - ✅ Status tracking
 
 **Invoices:**
+
 - ✅ List view
+
 - ✅ Details modal
+
 - ✅ PDF download
+
 - ✅ GST breakdown
 
 **Insurance:**
+
 - ✅ Calculation form
+
 - ✅ VARIANT field (BRD requirement)
+
 - ✅ Premium calculation
+
 - ✅ Pie chart visualization
 
 **Chat:**
+
 - ✅ Message input
+
 - ✅ Send functionality
+
 - ✅ Message history
+
 - ✅ Real-time updates
 
 **Approvals:**
+
 - ✅ Approval list
+
 - ✅ Approve action
+
 - ✅ Reject action
+
 - ✅ Status updates
 
 **Navigation:**
+
 - ✅ Sidebar menu
+
 - ✅ Page switching
+
 - ✅ Active highlighting
+
 - ✅ User profile
 
 ---
@@ -620,9 +777,13 @@ All screens tested:
 Frontend is ready for deployment. Next steps:
 
 1. **Staging API Testing** - Test with real backend
+
 2. **Performance Verification** - Load testing (optional)
+
 3. **Security Audit** - If required by organization
+
 4. **Production Deployment** - Choose from 4 options
+
 5. **Post-Launch Monitoring** - First 24 hours critical
 
 ---
